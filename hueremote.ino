@@ -42,6 +42,9 @@ void blinkLED(int dlay, int count = 1)
 }
 
 void setup() 
+
+Serial.begin(9600);      // open the serial port at 9600 bps:
+
 {
   pinMode(ESP8266_LED, OUTPUT);
   pinMode(ESP8266_BTN1, INPUT_PULLUP);
@@ -87,24 +90,32 @@ void loop()
   if (1 < duration && duration < 10) { // short press
     if (button_press == 1)
       hue.put("/api/4ebe05cb477824dd933911f54ebe878/lights/1/state",LIGHTS_ON);  // Turn on light 1
+		Serial.print("Button 1, short press");
     else if (button_press == 2)
       hue.put("/api/4ebe05cb477824dd933911f54ebe878/groups/1/action",LIGHTS_ON); // Turn on light group 1
+		Serial.print("Button 2, short press");
     else if (button_press == 3)
       hue.put("/api/4ebe05cb477824dd933911f54ebe878/lights/3/state",LIGHTS_ON);  // Turn on light 3
+  		Serial.print("Button 3, short press");
     else if (button_press == 4)
       hue.put("/api/4ebe05cb477824dd933911f54ebe878/lights/2/state",LIGHTS_ON);  // Turn on light 2
+		Serial.print("Button 4, short press");
   }
   else if (duration >= 10) { // long press
     if (button_press == 1)
       hue.put("/api/4ebe05cb477824dd933911f54ebe878/groups/0/action",LIGHTS_OFF);  // Turn off all lights
+		Serial.print("Button 1, long press");
     else if (button_press == 2)
       hue.put("/api/4ebe05cb477824dd933911f54ebe878/groups/1/action",LIGHTS_OFF); // Turn off light group 1
+		Serial.print("Button 2, long press");
     else if (button_press == 3)
-      hue.put("/api/4ebe05cb477824dd933911f54ebe878/lights/3/state",LIGHTS_OFF);  // Turn off light 3
+	  hue.put("/api/4ebe05cb477824dd933911f54ebe878/lights/3/state",LIGHTS_OFF);  // Turn off light 3
+		Serial.print("Button 3, long press");
     else if (button_press == 4) {
       party_on = !party_on;
       hue.put("/api/4ebe05cb477824dd933911f54ebe878/groups/2/action",(party_on)?LIGHTS_ON : LIGHTS_OFF);
       hue.put("/api/4ebe05cb477824dd933911f54ebe878/groups/2/action",(party_on)?EFFECT_COLORLOOP : EFFECT_NONE);
+	  	Serial.print("Button 4, long press");
     }
   }
 }
